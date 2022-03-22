@@ -21,9 +21,10 @@ const getUserWithEmail = function(email) {
   const userEmail = email.toLowerCase();
   return pool
     .query(`
-      SELECT name, email, password FROM users
+      SELECT * FROM users
       WHERE email = $1`, [userEmail])
     .then((result) => {
+      console.log(result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => {
@@ -32,18 +33,24 @@ const getUserWithEmail = function(email) {
 }
 exports.getUserWithEmail = getUserWithEmail;
 
-// getUserWithEmail('sebastianguerra@ymail.com');
-
 /**
  * Get a single user from the database given their id.
  * @param {string} id The id of the user.
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  return Promise.resolve(users[id]);
+  return pool
+    .query(`
+      SELECT * FROM users
+      WHERE id = $1`, [id])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 }
 exports.getUserWithId = getUserWithId;
-
 
 /**
  * Add a new user to the database.
