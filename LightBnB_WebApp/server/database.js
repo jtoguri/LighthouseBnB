@@ -21,7 +21,7 @@ const getUserWithEmail = function(email) {
   const userEmail = email.toLowerCase();
   const queryString = `
   SELECT * FROM users
-  WHERE email = $1`;
+  WHERE email = $1;`;
   return pool
     .query(queryString, [userEmail])
     .then((result) => {
@@ -41,7 +41,7 @@ exports.getUserWithEmail = getUserWithEmail;
 const getUserWithId = function(id) {
   const queryString = `
   SELECT * FROM users
-  WHERE id = $1`;
+  WHERE id = $1;`;
   return pool
     .query(queryString, [id])
     .then((result) => {
@@ -63,7 +63,7 @@ const addUser =  function(user) {
   INSERT INTO users (name, email, password)
   VALUES ($1, $2, $3)
   ON CONFLICT DO NOTHING
-  RETURNING *
+  RETURNING *;
   `;
   return pool
   .query(queryString, [user.name, user.email.toLowerCase(), user.password])
@@ -93,7 +93,7 @@ const getAllReservations = function(guest_id, limit = 10) {
   reservations.end_date < now()::date
   GROUP BY properties.id, reservations.id
   ORDER BY reservations.start_date
-  LIMIT $2
+  LIMIT $2;
   `;
   return pool
   .query(queryString, [guest_id, limit])
@@ -192,7 +192,7 @@ const addProperty = function(prop) {
   const queryString = `
   INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, parking_spaces, number_of_bathrooms, number_of_bedrooms, country, street, city, province, post_code)
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-  RETURNING *`
+  RETURNING *;`
   return pool.query(queryString, queryParams).then((res) => res.rows);
 }
 exports.addProperty = addProperty;
