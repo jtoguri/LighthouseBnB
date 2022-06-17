@@ -14,7 +14,9 @@ Fork and clone this repository
 
 `
   npm i  
+  
   cd LightBnB_WebApp  
+
   npm run local
 `
 In your web browser visit http://localhost:3000/
